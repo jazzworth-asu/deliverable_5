@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 # Create your views here.
+from .models import *
+from .forms import SignUpForm
+
 
 import logging
 logger = logging.getLogger(__name__)
@@ -12,22 +17,24 @@ def index(request):
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+def profile(request):
+    return render(request, 'profile.html')
+
 def signup(request):
-    if(request.method == 'POST'):
-        if(request.POST['password'] == request.POST['verifyPassword']):
-            try:
-                user = User.objects.get(username=request.POST['username'])
-                return render(request, 'signup.html', {'error': 'Username not available'})
-            except User.DoesNotExist:
-                user = User.objects.create_user(
-                    request.POST['username'], password=request.POST['password'])
-                auth.login(request, user)
-                return redirect('home')
-        else:
-            return render(request, 'signup.html', {'error': 'Mismatch passwords'})
-    else:
-        return render(request, 'signup.html')
-        
+    form = SignUpForm()
+    
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'You have been successfully signed up, ' + user + '!')
+            return redirect('signin')
+
+    context = {'form':form}
+    return render(request, 'signup.html', context)
+    
+   
 def signin(request):
     if(request.method == 'POST'):
         #see if it's an actual user

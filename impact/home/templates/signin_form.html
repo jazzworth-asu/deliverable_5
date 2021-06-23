@@ -7,20 +7,28 @@
         
             <div class="mb-3">
                 <label for="signInInputUsername" class="form-label required">Username</label>
-                <input type="text" class="form-control" id="signInInputUsername" name="username">
+                <input type="text" class="form-control" id="signInInputUsername" name="username" placeholder="Username">
             </div>
             <span class="text-danger d-none" id="signInInputUsernameRequired">- Username field is
                 required.<br></span>
         
             <div class="mb-3">
                 <label for="signInpassword" class="form-label required">Password</label>
-                <input type="password" class="form-control" id="signInpassword" name="password">
+                <input type="password" class="form-control" id="signInpassword" name="password" placeholder="Password">
             </div>
             <span class="text-danger d-none" id="signInpasswordRequired">- Password field is required.<br></span>
         
             <br>
             <a class="btn btn-outline-danger" href="{% url 'home' %}">Cancel</a>
             <button type="submit" class="btn btn-outline-primary" id="signInButton">Sign In</button>
+            <br>
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}    
+            
+            <div class="mb-3">
+                Don't have an account? <a href="{% url 'signup' %}">Sign Up Here</a>
+            </div>
         </form>
     </div>
 </div>

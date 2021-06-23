@@ -4,7 +4,7 @@ $(document).ready(function () {
   getLocation();
 
   // $("#joinUs").on('shown.bs.modal', resetJoinUsForm);
-  $("#joinUsButton").click(submitJoinUsForm)
+  $("#updateProfileButton").click(submitJoinUsForm)
 
   // /*sign in validation*/
   // $("#signInForm").on('shown.bs.modal', resetSignInForm);
