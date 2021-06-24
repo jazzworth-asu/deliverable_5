@@ -6,11 +6,18 @@
         </p>
     </div>
     <div class="col-6 text-end px-4">
+        {% if user.is_authenticated %}
+
+        <a href="/update_profile" class="btn">Update Profile</a>
+        |
+        <a href="/signout" class="btn">Logout</a>
+        
+        {%else%}
         <a href="/signin" class="btn">Sign In</a>
-        <!-- <a href="/signin" class="btn" data-bs-toggle="modal" data-bs-target="#signIn">Sign In</a> -->
         |
         <a href="/signup" class="btn">Join Us</a>
-        <!-- <a href="#" class="btn" data-bs-toggle="modal" data-bs-target="#joinUs">Join Us</a> -->
+        
+        {% endif %}
     </div>
 
 </div>

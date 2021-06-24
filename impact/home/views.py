@@ -1,32 +1,37 @@
+
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import auth
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import *
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm, UpdateVolunteerForm
 
 
 import logging
 logger = logging.getLogger(__name__)
 
 def index(request):
+
     return render(request, 'index.html')
 
+
 def dashboard(request):
+
     return render(request, 'dashboard.html')
 
+
 def profile(request):
+
     return render(request, 'profile.html')
+
 
 def signup(request):
     form = SignUpForm()
-    
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             user = form.cleaned_data.get('username')
             messages.success(request, 'You have been successfully signed up, ' + user + '!')
             return redirect('signin')
@@ -36,6 +41,7 @@ def signup(request):
     
    
 def signin(request):
+
     if(request.method == 'POST'):
         #see if it's an actual user
         user = auth.authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -49,4 +55,42 @@ def signin(request):
 
 
 def signout(request):
-    return render(request, 'signout.html')
+
+    auth.logout(request)
+    return render(request, 'index.html')
+
+
+# def createProfile(request):
+
+#     form = VolunteerForm()
+#     if request.method == 'POST':
+#         form = VolunteerForm(request.POST)
+#         #print(request.POST)
+#         if form.is_valid():
+#             form.save()
+
+#     context ={'form':form}
+#     return render(request, 'profile_form.html', context)
+
+@login_required
+def updateProfile(request):
+    if request.method == 'POST':
+        u_form = UpdateUserForm(request.POST, instance=request.user)
+        p_form = UpdateVolunteerForm(request.POST, instance=request.user)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'You profile as been updated!')
+            return redirect('profile')
+
+    else:
+        u_form = UpdateUserForm(instance=request.user)
+        p_form = UpdateVolunteerForm(instance=request.user.volunteer)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'profile.html', context)
+    
+

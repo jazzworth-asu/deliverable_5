@@ -1,13 +1,9 @@
 <div class="row mt-5" style="min-height: 75vh">
     <div class="col-6 m-auto text-center">
         <h1 class="text-muted">Successful Login! <br>
-            Welcome to your Dashboard, 
-        {% if request.user.is_authenticated %}     
-            {{ user.username }}
-        {% else %}
-            <p></p>    
-        {% endif %}<br></h1>
-            
-        <a class="btn btn-outline-primary mt-5" href="/">Logout</a>
+            Welcome to your Dashboard, {{request.user}}<br>
+        <a class="btn btn-outline-primary" href="{% url 'update_profile' %}">Update Profile</a>
+            <br>
+        <a class="btn btn-outline-primary mt-5" href="{% url 'signout' %}" >Logout</a>
     </div>
 </div>        
