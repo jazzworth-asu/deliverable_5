@@ -60,32 +60,22 @@ def signout(request):
     return render(request, 'index.html')
 
 
-# def createProfile(request):
-
-#     form = VolunteerForm()
-#     if request.method == 'POST':
-#         form = VolunteerForm(request.POST)
-#         #print(request.POST)
-#         if form.is_valid():
-#             form.save()
-
-#     context ={'form':form}
-#     return render(request, 'profile_form.html', context)
-
 @login_required
 def updateProfile(request):
     if request.method == 'POST':
         u_form = UpdateUserForm(request.POST, instance=request.user)
-        p_form = UpdateVolunteerForm(request.POST, instance=request.user)
+        p_form = UpdateVolunteerForm(request.POST, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
             messages.success(request, 'You profile as been updated!')
-            return redirect('profile')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the error below.')
 
     else:
         u_form = UpdateUserForm(instance=request.user)
-        p_form = UpdateVolunteerForm(instance=request.user.volunteer)
+        p_form = UpdateVolunteerForm(instance=request.user.profile)
 
     context = {
         'u_form': u_form,
