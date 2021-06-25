@@ -1,0 +1,24 @@
+{% if error %}
+    <div  class="alert alert-danger text-center">
+        {{error}}
+    </div>
+{% endif %}
+
+{% load crispy_forms_tags %}
+
+<div class="row" style="min-height: 75vh">
+    <div class="col-3 m-auto">
+        <h3 class="text-muted my-5">Sign In Form</h3>
+        <form id="signInForm" action="signin" method="POST">
+
+            {% csrf_token %}
+            {{form|crispy}}
+
+            <br>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'home' %}">Cancel</a>
+            <button type="submit" class="btn btn-sm btn-outline-primary" id="signInButton">Sign In</button>
+        </form>
+        <hr>
+            Don't have an account? <a class="btn btn-sm btn-outline-primary mx-3" href={% url 'signup' %}>Sign Up</a>
+    </div>
+</div>

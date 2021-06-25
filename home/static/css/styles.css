@@ -1,0 +1,16 @@
+.required:after {
+    content:" *";
+    color: red;
+  }
+  
+.asteriskField {
+  color: orangered
+}
+#dragdiv1, #dragdiv2 {
+  
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+}

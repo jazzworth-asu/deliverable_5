@@ -1,0 +1,37 @@
+{% if error %}
+    <div  class="alert alert-danger text-center">
+        {{error}}
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-3 m-auto">
+        
+        <h3 class="text-muted my-5">Join Us Form</h3>
+        <form id="joinUsForm" method="post" action="signup" novalidate>
+
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="{% if field.field.required %}required{% endif %}">
+                    {{field.label_tag}}
+                </div>
+                    
+                {{field}}
+
+                <ul class="text-danger">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>    
+                    {% endfor %}
+                </ul> 
+            {% endfor %}
+
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'home' %}">Cancel</a>
+            <button type="submit" class="btn btn-outline-primary btn-sm" id="joinUsButton">Sign Up</button>
+        </form>
+
+        <hr>
+
+        Already have an account?<a class="btn btn-sm btn-outline-primary mx-3" href="{% url 'signin' %}">Sign In</a>
+    </div>
+</div>

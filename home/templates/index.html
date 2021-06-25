@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    {% if message %}
+        <div class="row alert alert-warning">
+        <div class="col text-center">
+            {{message}}
+            <a href="/" type="button" class="btn btn-sm btn-light mx-3 border border-secondary">Ok</a>
+        </div>
+        </div>
+    {% endif %}
+    {% include 'content.html' %}
+{% endblock %}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
